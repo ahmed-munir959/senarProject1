@@ -1,172 +1,199 @@
-import statusBar1 from "../../../assets/images/statusBar1.png";
+import { useState, useRef } from "react";
 import SenarLogo from "../../../assets/images/senarImage.png";
 import backArrow from "../../../assets/images/backArrow.png";
 
 const OnBoarding1 = () => {
+  const [progressStage, setProgressStage] = useState(1);
+  const [name, setName] = useState("");
+  const [website, setWebsite] = useState("");
+  const [category, setCategory] = useState("");
+  const [about, setAbout] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const fileInputRef = useRef(null);
+
+  const handleContinue = () => {
+    if (name.trim() === "" || website.trim() === "" || category.trim() === "") {
+      setErrorMessage("Please fill in all required fields");
+      return;
+    }
+    setErrorMessage("");
+    if (progressStage < 3) {
+      setProgressStage(progressStage + 1);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setErrorMessage("");
+    setUploadedFile(null);
+
+    if (file.size > 4 * 1024 * 1024) {
+      setErrorMessage("File size exceeds 4MB");
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      if (img.width < 98 || img.height < 98) {
+        setErrorMessage("Image must be at least 98x98 pixels");
+      } else {
+        setUploadedFile(file.name);
+      }
+    };
+    img.onerror = () => {
+      setErrorMessage("Invalid image file");
+    };
+    img.src = URL.createObjectURL(file);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const progressPercentage = Math.round((progressStage / 3) * 100);
+
   return (
     <div className="min-h-screen bg-white md:flex md:items-center md:justify-center">
-      {/* Main Container */}
-      <section className="max-w-[505px] md:flex md:flex-col md:mr-16">
-        {/* Mobile Header - Visible only on small screens */}
-        <div className="md:hidden px-4 mt-4 flex flex-col">
-          {/* Back Arrow and Status Bar Container */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+
+      {/* Main Container - Updated width */}
+      <section className="w-full px-4 md:max-w-[505px] md:flex md:flex-col md:mr-16">
+        {/* Mobile Header */}
+        <div className="md:hidden mt-4 flex flex-col">
           <div className="flex flex-col">
             <button className="mb-4 bg-transparent p-0 border-none self-start">
               <img src={backArrow} alt="Back" className="w-6 h-6" />
             </button>
-            <img
-              src={statusBar1}
-              alt="status bar"
-              className="w-full"
-              style={{ height: "auto" }}
-            />
-          </div>
-        </div>
-
-        {/* Logo and Status Bar Container for medium and above screens */}
-        <div className="hidden md:block px-4">
-          <img
-            src={SenarLogo}
-            alt="Senar logo"
-            className="mb-4"
-            style={{
-              width: "105px",
-              height: "18px",
-              marginLeft: "0",
-            }}
-          />
-          <img
-            src={statusBar1}
-            alt="status bar"
-            className="w-full mb-4"
-            style={{ height: "auto" }}
-          />
-        </div>
-
-        {/* Form Content */}
-        <div className="pt-12 px-4 md:pt-0">
-          <h1
-            className="mb-4 text-left"
-            style={{
-              width: "505px",
-              fontFamily: "Helvetica Neue",
-              fontWeight: 500,
-              fontSize: "32px",
-              lineHeight: "40px",
-            }}
-          >
-            Setup your studio profile
-          </h1>
-
-          <p
-            className="mb-4 md:mb-6"
-            style={{
-              width: "505px",
-              fontFamily: "Helvetica Neue",
-              fontWeight: 400,
-              fontSize: "14px",
-              color: "#646464",
-            }}
-          >
-            Enter details below to create your new studio account
-          </p>
-
-          {/* Mobile Upload Section - Visible only on small screens */}
-          <div className="md:hidden w-full max-w-[200px] mx-auto mb-6">
-            <div
-              className="border rounded-[20px] flex flex-col items-center justify-center text-center"
-              style={{
-                width: "200px",
-                height: "200px",
-                border: "2px dashed #999999",
-                padding: "60px 30px",
-              }}
-            >
-              <div className="flex flex-col items-center">
-                <h2 className="w-[133px] h-[20px] m-0 font-medium text-[14px] leading-[1.4] text-center font-['Helvetica Neue']">
-                  + Upload Image
-                </h2>
-                <p className="w-[133px] h-[34px] m-0 mt-2 font-normal text-[12px] leading-[1.4] text-center font-['Helvetica Neue'] text-[#646464]">
-                  that's at least 98 x 98 pixels and 4MB or less
-                </p>
+            <div className="w-full mb-4">
+              <div className="text-sm font-medium text-purple-700 font-[Helvetica Neue]">
+                Progress ({progressPercentage}%)
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div
+                  className="bg-purple-600 h-2.5 rounded-full"
+                  style={{ width: `${progressPercentage}%` }}
+                />
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="max-w-lg mx-auto space-y-4 md:mx-0">
+        {/* Desktop Header */}
+        <div className="hidden md:block">
+          <img
+            src={SenarLogo}
+            alt="Senar logo"
+            className="mb-4 w-[105px] h-[18px]"
+          />
+          <div className="w-full mb-4">
+            <div className="text-sm font-medium text-purple-700 font-[Helvetica Neue]">
+              Progress ({progressPercentage}%)
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-purple-600 h-2.5 rounded-full"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Form Content */}
+        <div className="pt-12 md:pt-0">
+          <h1 className="mb-4 text-left text-[32px] leading-[40px] font-[Helvetica Neue] font-medium">
+            Setup your studio profile
+          </h1>
+
+          <p className="mb-4 md:mb-6 text-[14px] text-[#646464] font-[Helvetica Neue]">
+            Enter details below to create your new studio account
+          </p>
+
+          {/* Mobile Upload */}
+          <div className="md:hidden w-full max-w-[200px] mx-auto mb-6">
+            <div
+              className="border-2 border-dashed border-[#999999] rounded-[20px] flex flex-col items-center justify-center text-center p-[60px_30px] cursor-pointer"
+              onClick={handleUploadClick}
+            >
+              <div className="flex flex-col items-center">
+                {uploadedFile ? (
+                  <p className="w-[133px] h-[20px] text-[14px] leading-[1.4] text-purple-600 break-words font-[Helvetica Neue]">
+                    {uploadedFile}
+                  </p>
+                ) : (
+                  <>
+                    <h2 className="w-[133px] h-[20px] text-[14px] leading-[1.4] font-[Helvetica Neue] text-center font-medium">
+                      + Upload Image
+                    </h2>
+                    <p className="w-[133px] h-[34px] mt-2 text-[12px] leading-[1.4] font-[Helvetica Neue] text-[#646464] text-center">
+                      that's at least 98 x 98 pixels and 4MB or less
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2 text-center font-[Helvetica Neue]">
+                {errorMessage}
+              </p>
+            )}
+          </div>
+
+          {/* Form Fields - Full width */}
+          <div className="w-full space-y-4">
             {/* Name Field */}
             <div>
-              <h2
-                className="font-bold mb-1"
-                style={{
-                  fontFamily: "Helvetica Neue",
-                  fontSize: "14px",
-                  color: "#222222",
-                }}
-              >
+              <h2 className="font-bold mb-1 text-[14px] text-[#222222] font-[Helvetica Neue]">
                 Name
               </h2>
               <input
                 type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Enter studio name"
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{
-                  height: "48px",
-                  border: "1px solid #CCCCCC",
-                  padding: "12px",
-                }}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[Helvetica Neue]"
               />
             </div>
 
             {/* Website Field */}
             <div>
-              <h2
-                className="font-bold mb-1"
-                style={{
-                  fontFamily: "Helvetica Neue",
-                  fontSize: "14px",
-                  color: "#222222",
-                }}
-              >
+              <h2 className="font-bold mb-1 text-[14px] text-[#222222] font-[Helvetica Neue]">
                 Website
               </h2>
               <input
                 type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
                 placeholder="Enter website"
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{
-                  height: "48px",
-                  border: "1px solid #CCCCCC",
-                  padding: "12px",
-                }}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[Helvetica Neue]"
               />
             </div>
 
             {/* Category Field */}
             <div>
-              <h2
-                className="font-bold mb-1"
-                style={{
-                  fontFamily: "Helvetica Neue",
-                  fontSize: "14px",
-                  color: "#222222",
-                }}
-              >
+              <h2 className="font-bold mb-1 text-[14px] text-[#222222] font-[Helvetica Neue]">
                 Category
               </h2>
               <div className="relative">
                 <select
-                  className="w-full p-3 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#646464] font-normal text-[14px] font-['Helvetica Neue'] appearance-none"
-                  style={{
-                    height: "48px",
-                    border: "1px solid #CCCCCC",
-                    padding: "12px",
-                    paddingRight: "40px",
-                  }}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full p-3 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#646464] font-[Helvetica Neue] appearance-none"
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     Select category
                   </option>
+                  <option value="Photography">Photography</option>
+                  <option value="Music">Music</option>
+                  <option value="Art">Art</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                   <svg
@@ -188,34 +215,28 @@ const OnBoarding1 = () => {
 
             {/* About Field */}
             <div>
-              <h2
-                className="font-bold mb-1"
-                style={{
-                  fontFamily: "Helvetica Neue",
-                  fontSize: "14px",
-                  color: "#222222",
-                }}
-              >
+              <h2 className="font-bold mb-1 text-[14px] text-[#222222] font-[Helvetica Neue]">
                 About
               </h2>
               <textarea
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
                 placeholder="Tell us about your studio..."
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{
-                  height: "100px",
-                  border: "1px solid #CCCCCC",
-                  padding: "12px",
-                }}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-[Helvetica Neue]"
               />
             </div>
 
+            {/* Error Message */}
+            {errorMessage && (
+              <p className="text-red-500 text-sm font-[Helvetica Neue]">
+                {errorMessage}
+              </p>
+            )}
+
             {/* Continue Button */}
             <button
-              className="w-full bg-[#532E88] text-white py-4 rounded-lg font-semibold"
-              style={{
-                height: "48px",
-                padding: "12px 45px",
-              }}
+              onClick={handleContinue}
+              className="w-full bg-[#532E88] text-white py-4 rounded-lg font-semibold font-[Helvetica Neue] hover:bg-[#431C6E]"
             >
               Continue
             </button>
@@ -223,31 +244,34 @@ const OnBoarding1 = () => {
         </div>
       </section>
 
-      {/* Desktop Upload Section - Visible only on medium screens and above */}
-      <div
-        className="hidden md:flex flex-col"
-        style={{
-          marginTop: "-280px",
-        }}
-      >
+      {/* Desktop Upload Section */}
+      <div className="hidden md:flex flex-col" style={{ marginTop: "-280px" }}>
         <div
-          className="border rounded-[20px] flex flex-col items-center justify-center text-center"
-          style={{
-            width: "200px",
-            height: "200px",
-            border: "2px dashed #999999",
-            padding: "60px 30px",
-          }}
+          className="border-2 border-dashed border-[#999999] rounded-[20px] flex flex-col items-center justify-center text-center p-[60px_30px] cursor-pointer"
+          onClick={handleUploadClick}
         >
           <div className="flex flex-col items-center">
-            <h2 className="w-[133px] h-[20px] md:w-[166px] md:h-[28px] m-0 !font-medium !text-[14px] md:!text-[20px] leading-[1.4] text-center font-['Helvetica Neue']">
-              + Upload Image
-            </h2>
-            <p className="w-[133px] h-[34px] md:w-[166px] md:h-[44px] m-0 mt-2 !font-normal !text-[12px] md:!text-[16px] leading-[1.4] text-center font-['Helvetica Neue']">
-              that's at least 98 x 98 pixels and 4MB or less
-            </p>
+            {uploadedFile ? (
+              <p className="w-[166px] h-[28px] text-[16px] text-purple-600 break-words font-[Helvetica Neue]">
+                {uploadedFile}
+              </p>
+            ) : (
+              <>
+                <h2 className="w-[166px] h-[28px] m-0 text-[20px] leading-[1.4] font-[Helvetica Neue] text-center font-medium">
+                  + Upload Image
+                </h2>
+                <p className="w-[166px] h-[44px] m-0 mt-2 text-[16px] leading-[1.4] font-[Helvetica Neue] text-center font-normal">
+                  that's at least 98 x 98 pixels and 4MB or less
+                </p>
+              </>
+            )}
           </div>
         </div>
+        {errorMessage && (
+          <p className="text-red-500 text-sm mt-2 text-center font-[Helvetica Neue]">
+            {errorMessage}
+          </p>
+        )}
       </div>
     </div>
   );
