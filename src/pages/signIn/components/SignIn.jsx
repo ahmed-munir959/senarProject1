@@ -106,7 +106,7 @@ const SignIn = () => {
           </button>
 
           <p
-            className={`text-[14px] font-normal leading-[20px] ${styles.loginText}`}
+            className={`text-[14px] font-normal leading-[20px] ${styles.loginBottom}`}
             style={{ fontFamily: "var(--font-type)" }}
           >
             Don't have an account?{" "}

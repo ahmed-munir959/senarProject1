@@ -1,7 +1,6 @@
-import statusBar1 from "../../assets/images/statusBar1.png";
-import SenarLogo from "../../assets/images/SenarImage.png";
-import backArrow from "../../assets/images/backArrow.png";
-import styles from "./OnBoarding1.module.css";
+import statusBar1 from "../../../assets/images/statusBar1.png";
+import SenarLogo from "../../../assets/images/senarImage.png";
+import backArrow from "../../../assets/images/backArrow.png";
 
 const OnBoarding1 = () => {
   return (

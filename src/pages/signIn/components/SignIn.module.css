@@ -1,0 +1,11 @@
+@media screen and (max-width: 768px) {
+  .loginBottom {
+    position: fixed;
+    bottom: 2rem; /* Keeps the distance from the bottom */
+    left: 50%; /* Move the left edge to the center */
+    transform: translateX(
+      -50%
+    ); /* Shift the element back by 50% of its width */
+    white-space: nowrap; /* Prevent the text from wrapping */
+  }
+}
