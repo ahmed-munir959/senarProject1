@@ -1,8 +1,23 @@
+import { useState } from "react";
 import ExperienceStudio from "../../../assets/images/ExperienceStudio.png";
 import ExperienceViewer from "../../../assets/images/ExperienceViewer.png";
 import SenarLogo from "../../../assets/images/SenarLogo.png";
 
-const ChooseAccount = () => {
+const ChooseAccount = (props) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleStudioClick = () => {
+    setSelectedOption("studio");
+    console.log("Studio option selected");
+    props.onSelectStudio();
+  };
+
+  const handleViewerClick = () => {
+    setSelectedOption("viewer");
+    console.log("Viewer option selected");
+    props.onSelectViewer();
+  };
+
   return (
     <section className="h-screen bg-white flex flex-col overflow-hidden">
       {/* Logo Section - Hidden on mobile */}
@@ -25,7 +40,17 @@ const ChooseAccount = () => {
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full max-w-[400px] md:max-w-none">
           {/* Studio Option */}
           <div className="w-full md:w-auto">
-            <div className="p-3 border-2 border-gray-200 rounded-[28px] md:rounded-2xl hover:border-gray-300 transition-all w-full">
+            <div
+              className={`p-3 border-2 ${
+                selectedOption === "studio"
+                  ? "border-purple-500"
+                  : "border-gray-200"
+              } rounded-[28px] md:rounded-2xl hover:border-gray-300 transition-all w-full cursor-pointer`}
+              onClick={handleStudioClick}
+              role="button"
+              tabIndex="0"
+              aria-label="Select Studio option"
+            >
               <div className="flex items-center md:flex-col md:justify-center">
                 <img
                   src={ExperienceStudio}
@@ -46,7 +71,17 @@ const ChooseAccount = () => {
 
           {/* Viewer Option */}
           <div className="w-full md:w-auto">
-            <div className="p-3 border-2 border-gray-200 rounded-[28px] md:rounded-2xl hover:border-gray-300 transition-all w-full">
+            <div
+              className={`p-3 border-2 ${
+                selectedOption === "viewer"
+                  ? "border-purple-500"
+                  : "border-gray-200"
+              } rounded-[28px] md:rounded-2xl hover:border-gray-300 transition-all w-full cursor-pointer`}
+              onClick={handleViewerClick}
+              role="button"
+              tabIndex="0"
+              aria-label="Select Viewer option"
+            >
               <div className="flex items-center md:flex-col md:justify-center">
                 <img
                   src={ExperienceViewer}

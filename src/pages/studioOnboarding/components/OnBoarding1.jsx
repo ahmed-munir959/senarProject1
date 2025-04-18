@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import SenarLogo from "../../../assets/images/senarImage.png";
 import backArrow from "../../../assets/images/backArrow.png";
+import SenarLogoComponent from "../../../components/SenarLogoComponent";
 
 const OnBoarding1 = () => {
   const [progressStage, setProgressStage] = useState(1);
@@ -87,25 +88,8 @@ const OnBoarding1 = () => {
           </div>
         </div>
 
-        {/* Desktop Header */}
-        <div className="hidden md:block">
-          <img
-            src={SenarLogo}
-            alt="Senar logo"
-            className="mb-4 w-[105px] h-[18px]"
-          />
-          <div className="w-full mb-4">
-            <div className="text-sm font-medium text-purple-700 font-[Helvetica Neue]">
-              Progress ({progressPercentage}%)
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div
-                className="bg-purple-600 h-2.5 rounded-full"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Desktop Header - Using the new component */}
+        <SenarLogoComponent progressPercentage={progressPercentage} />
 
         {/* Form Content */}
         <div className="pt-12 md:pt-0">

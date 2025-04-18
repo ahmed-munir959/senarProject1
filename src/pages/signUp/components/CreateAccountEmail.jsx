@@ -4,7 +4,7 @@ import appleIcon from "../../../assets/icons/appleIcon.png";
 import googleIcon from "../../../assets/icons/googleIcon.png";
 import styles from "./EmailForm.module.css";
 
-const CreateAccountEmail = () => {
+const CreateAccountEmail = ({ onContinue }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordMode, setPasswordMode] = useState(false);
@@ -14,11 +14,20 @@ const CreateAccountEmail = () => {
   };
 
   const handleContinue = () => {
-    if (isValidEmail(email)) {
-      setPassword("");
-      setPasswordMode(true);
+    if (!isPasswordMode) {
+      if (isValidEmail(email)) {
+        setPasswordMode(true);
+      } else {
+        alert("Please enter a valid email address.");
+      }
     } else {
-      alert("Please enter a valid email address.");
+      // If in password mode and password is valid, navigate to ChooseAccount
+      if (password.length >= 6) {
+        // Add your password validation logic here
+        onContinue(); // This will trigger the parent component to show ChooseAccount
+      } else {
+        alert("Please enter a valid password (at least 6 characters).");
+      }
     }
   };
 
