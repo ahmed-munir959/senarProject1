@@ -2,20 +2,24 @@ import { useState } from "react";
 import ExperienceStudio from "../../../assets/images/ExperienceStudio.png";
 import ExperienceViewer from "../../../assets/images/ExperienceViewer.png";
 import SenarLogo from "../../../assets/images/SenarLogo.png";
+import { useNavigate } from "react-router-dom";
 
 const ChooseAccount = (props) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const navigate = useNavigate();
 
   const handleStudioClick = () => {
     setSelectedOption("studio");
     console.log("Studio option selected");
-    props.onSelectStudio();
+    // props.onSelectStudio();
+    navigate("/studioonboarding");
   };
 
   const handleViewerClick = () => {
     setSelectedOption("viewer");
     console.log("Viewer option selected");
-    props.onSelectViewer();
+    // props.onSelectViewer();
+    navigate("/vieweronboarding");
   };
 
   return (

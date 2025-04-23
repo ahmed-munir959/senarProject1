@@ -1,7 +1,17 @@
 import React from "react";
 import SenarLogo from "../../../../assets/images/SenarLogo.png";
+import { Link } from "react-router-dom";
 
 const SideBar = ({ activeItem, setActiveItem }) => {
+  // Create a mapping for URL paths
+  const itemToPath = {
+    Home: "home",
+    Leaderboard: "leaderboard",
+    Movies: "movies",
+    Series: "series",
+    "Watch Later": "watchlater",
+    Subscriptions: "subscriptions",
+  };
   return (
     <div className="hidden md:flex w-64 bg-purple-100 border-r border-gray-200 flex-col h-full">
       {/* Scrollable content area */}
@@ -17,8 +27,8 @@ const SideBar = ({ activeItem, setActiveItem }) => {
         <nav className="mt-6">
           <div className="px-6">
             {/* Home Item */}
-            <a
-              href="#"
+            <Link
+              to={`/viewerlanding/${itemToPath["Home"]}`}
               className={`flex items-center py-3 ${
                 activeItem === "Home" ? "bg-white" : ""
               } hover:bg-white rounded-md`}
@@ -38,11 +48,11 @@ const SideBar = ({ activeItem, setActiveItem }) => {
               >
                 Home
               </span>
-            </a>
+            </Link>
 
             {/* Leaderboard Item */}
-            <a
-              href="#"
+            <Link
+              to={`/viewerlanding/${itemToPath["Leaderboard"]}`}
               className={`flex items-center py-3 ${
                 activeItem === "Leaderboard" ? "bg-white" : ""
               } hover:bg-white rounded-md`}
@@ -65,11 +75,11 @@ const SideBar = ({ activeItem, setActiveItem }) => {
               >
                 Leaderboard
               </span>
-            </a>
+            </Link>
 
             {/* Movies Item */}
-            <a
-              href="#"
+            <Link
+              to={`/viewerlanding/${itemToPath["Movies"]}`}
               className={`flex items-center py-3 ${
                 activeItem === "Movies" ? "bg-white" : ""
               } hover:bg-white rounded-md`}
@@ -93,11 +103,11 @@ const SideBar = ({ activeItem, setActiveItem }) => {
               >
                 Movies
               </span>
-            </a>
+            </Link>
 
             {/* Series Item */}
-            <a
-              href="#"
+            <Link
+              to={`/viewerlanding/${itemToPath["Series"]}`}
               className={`flex items-center py-3 ${
                 activeItem === "Series" ? "bg-white" : ""
               } hover:bg-white rounded-md`}
@@ -121,11 +131,11 @@ const SideBar = ({ activeItem, setActiveItem }) => {
               >
                 Series
               </span>
-            </a>
+            </Link>
 
             {/* Watch Later Item */}
-            <a
-              href="#"
+            <Link
+              to={`/viewerlanding/${itemToPath["Watch Later"]}`}
               className={`flex items-center py-3 ${
                 activeItem === "Watch Later" ? "bg-white" : ""
               } hover:bg-white rounded-md`}
@@ -151,15 +161,15 @@ const SideBar = ({ activeItem, setActiveItem }) => {
               >
                 Watch Later
               </span>
-            </a>
+            </Link>
           </div>
         </nav>
       </div>
 
       {/* Subscriptions Item */}
       <div className="p-6" style={{ paddingBottom: "2rem" }}>
-        <a
-          href="#"
+        <Link
+          to={`/viewerlanding/${itemToPath["Subscriptions"]}`}
           className={`flex items-center py-3 ${
             activeItem === "Subscriptions" ? "bg-white" : ""
           } hover:bg-white rounded-md`}
@@ -182,7 +192,7 @@ const SideBar = ({ activeItem, setActiveItem }) => {
           >
             Subscriptions
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );

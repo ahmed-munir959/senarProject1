@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
 import HomeScreen from "./HomeScreen";
@@ -10,6 +11,7 @@ import ProfileOptionsMobile from "./ProfileOptionsMobile";
 import FeedbackScreen from "./FeedbackScreen";
 import EditContent from "./EditContent";
 import UploadVideo from "./UploadVideo";
+import AccountPage from "../account/AccountPageStudio";
 import {
   Home,
   Film,
@@ -23,7 +25,13 @@ import {
 import senarLogo from "../../../assets/icons/senarLogo.png";
 
 const DashBoardLayout = () => {
-  const [activeScreen, setActiveScreen] = useState("home");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Extract screen from URL path
+  const pathParts = location.pathname.split("/");
+  const activeScreen = pathParts.length > 2 ? pathParts[2] : "home";
+
   const [isImportUploadOpen, setIsImportUploadOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [editingVideo, setEditingVideo] = useState(null);
@@ -80,6 +88,10 @@ const DashBoardLayout = () => {
     console.log("Upload from computer clicked in HomeScreen!");
     setIsUploadVideoOpen(true);
   };
+  const handleOpenSettings = () => {
+    setIsProfileMenuOpen(false); // Close the profile dropdown
+    navigate("/account/overview"); // Navigate to standalone account page
+  };
 
   const renderScreen = () => {
     switch (activeScreen) {
@@ -90,7 +102,7 @@ const DashBoardLayout = () => {
           <VideoScreen
             onEditVideo={(video) => {
               setEditingVideo(video);
-              setActiveScreen("edit");
+              navigate("/studiodashboard/edit");
             }}
           />
         );
@@ -98,7 +110,7 @@ const DashBoardLayout = () => {
         return (
           <EditContent
             video={editingVideo}
-            onBack={() => setActiveScreen("videos")}
+            onBack={() => navigate("/studiodashboard/videos")}
           />
         );
       case "analytics":
@@ -145,7 +157,7 @@ const DashBoardLayout = () => {
         <div className="hidden md:block">
           <SideBar
             activeScreen={activeScreen}
-            setActiveScreen={setActiveScreen}
+            setActiveScreen={(screen) => navigate(`/studiodashboard/${screen}`)}
             navItems={navItems}
           />
         </div>
@@ -161,6 +173,9 @@ const DashBoardLayout = () => {
               isProfileMenuOpen={isProfileMenuOpen}
               onUploadClick={handleUploadClick}
               onImportClick={handleImportClick}
+              onSwitchToViewer={() => navigate("/viewerlanding")}
+              onLogout={() => navigate("/")}
+              onOpenSettings={handleOpenSettings}
             />
           </div>
         )}
@@ -203,10 +218,14 @@ const DashBoardLayout = () => {
         )}
       </div>
       {/* Mobile Profile Options Modal - Render at root level, only when not desktop and not editing */}
+
       {isProfileMenuOpen && !isDesktop && !isEditing && (
         <ProfileOptionsMobile
           isOpen={isProfileMenuOpen}
           onClose={() => setIsProfileMenuOpen(false)}
+          onSwitchToViewer={() => navigate("/viewerlanding")}
+          onLogout={() => navigate("/")}
+          onOpenSettings={handleOpenSettings}
         />
       )}
       {/* Mobile Import/Upload Modal - Render at root level */}
@@ -216,7 +235,6 @@ const DashBoardLayout = () => {
           onClose={() => setIsImportUploadOpen(false)}
         />
       )}
-
       {/* Upload Video Modal */}
       {isUploadVideoOpen && (
         <UploadVideo

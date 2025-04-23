@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
 import Categories from "./Categories";
@@ -9,27 +9,55 @@ import SeriesScreen from "./SeriesScreen";
 import WatchLaterScreen from "./WatchLaterScreen";
 import SubscriptionsScreen from "./SubscriptionsScreen";
 import DashBoardLayout from "../../../studio/dashBoard/DashBoardLayout";
+import SingleSeries from "../SingleSeries";
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
-  const [activeItem, setActiveItem] = useState("Home");
-  const [selectedGenre, setSelectedGenre] = useState("All");
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [studioMode, setStudioMode] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const toggleMobileSidebar = () => {
-    setMobileSidebarOpen(!mobileSidebarOpen);
+  // Extract the active screen from URL path
+  const getActiveItemFromPath = () => {
+    const path = location.pathname.split("/")[2] || "home";
+    const pathToActiveItem = {
+      home: "Home",
+      leaderboard: "Leaderboard",
+      movies: "Movies",
+      series: "Series",
+      watchlater: "Watch Later",
+      subscriptions: "Subscriptions",
+    };
+    return pathToActiveItem[path] || "Home";
+  };
+
+  const [activeItem, setActiveItem] = useState(getActiveItemFromPath());
+  const [selectedGenre, setSelectedGenre] = useState("All");
+
+  // Update the active item when the URL changes
+  useEffect(() => {
+    setActiveItem(getActiveItemFromPath());
+  }, [location]);
+
+  // Update URL when activeItem changes
+  const handleSetActiveItem = (item) => {
+    const urlPath = item.toLowerCase().replace(" ", "");
+    navigate(`/viewerlanding/${urlPath}`);
   };
 
   const handleLaunchStudio = () => {
     setStudioMode(true);
   };
 
-  // If studio mode is active, render the DashBoardLayout
-  if (studioMode) {
-    return <DashBoardLayout />;
-  }
+  // if (studioMode) {
+  //   return <DashBoardLayout />;
+  // }
 
-  // Otherwise render the viewer landing page
   return (
     <div className="flex flex-col h-screen bg-white overflow-x-hidden">
       {/* Mobile header */}
@@ -51,15 +79,6 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
               ></path>
             </svg>
           </button>
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
         </div>
       </div>
 
@@ -70,7 +89,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
 
       {/* Main content wrapper */}
       <div className="flex flex-1 overflow-hidden">
-        <SideBar activeItem={activeItem} setActiveItem={setActiveItem} />
+        <SideBar activeItem={activeItem} setActiveItem={handleSetActiveItem} />
 
         {/* Main content area */}
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -81,23 +100,57 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
 
           {/* Content area with scrolling */}
           <div className="flex-1 overflow-y-auto">
-            {activeItem === "Home" && (
-              <>
-                <Categories
-                  selectedGenre={selectedGenre}
-                  setSelectedGenre={setSelectedGenre}
-                />
-                <HomeScreen
-                  portfolioData={portfolioData}
-                  onVideoSelect={onVideoSelect}
-                />
-              </>
-            )}
-            {activeItem === "Leaderboard" && <LeaderBoardCompareScreen />}
-            {activeItem === "Movies" && <MoviesScreen />}
-            {activeItem === "Series" && <SeriesScreen />}
-            {activeItem === "Watch Later" && <WatchLaterScreen />}
-            {activeItem === "Subscriptions" && <SubscriptionsScreen />}
+            <Routes>
+              <Route
+                path="home"
+                element={
+                  <>
+                    <Categories
+                      selectedGenre={selectedGenre}
+                      setSelectedGenre={setSelectedGenre}
+                    />
+                    <HomeScreen
+                      portfolioData={portfolioData}
+                      onVideoSelect={onVideoSelect}
+                    />
+                  </>
+                }
+              />
+              <Route
+                path="leaderboard"
+                element={<LeaderBoardCompareScreen />}
+              />
+              <Route
+                path="movies"
+                element={<MoviesScreen onVideoSelect={onVideoSelect} />}
+              />
+              <Route path="series" element={<SeriesScreen />} />
+              <Route
+                path="series/:videoId"
+                element={
+                  <SingleSeries
+                    onBackClick={() => navigate("/viewerlanding/series")}
+                  />
+                }
+              />
+              <Route path="watchlater" element={<WatchLaterScreen />} />
+              <Route path="subscriptions" element={<SubscriptionsScreen />} />
+              <Route
+                path="*"
+                element={
+                  <>
+                    <Categories
+                      selectedGenre={selectedGenre}
+                      setSelectedGenre={setSelectedGenre}
+                    />
+                    <HomeScreen
+                      portfolioData={portfolioData}
+                      onVideoSelect={onVideoSelect}
+                    />
+                  </>
+                }
+              />
+            </Routes>
           </div>
         </div>
       </div>
@@ -109,7 +162,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
             className={`flex flex-col items-center p-2 ${
               activeItem === "Home" ? "text-purple-800" : "text-gray-600"
             }`}
-            onClick={() => setActiveItem("Home")}
+            onClick={() => handleSetActiveItem("Home")}
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
@@ -121,7 +174,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
             className={`flex flex-col items-center p-2 ${
               activeItem === "Leaderboard" ? "text-purple-800" : "text-gray-600"
             }`}
-            onClick={() => setActiveItem("Leaderboard")}
+            onClick={() => handleSetActiveItem("Leaderboard")}
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path d="M5 3a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V3z"></path>
@@ -136,7 +189,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
                 ? "text-purple-800"
                 : "text-gray-600"
             }`}
-            onClick={() => setActiveItem("Subscriptions")}
+            onClick={() => handleSetActiveItem("Subscriptions")}
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -153,7 +206,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
             className={`flex flex-col items-center p-2 ${
               activeItem === "Movies" ? "text-purple-800" : "text-gray-600"
             }`}
-            onClick={() => setActiveItem("Movies")}
+            onClick={() => handleSetActiveItem("Movies")}
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -169,7 +222,7 @@ const ViewersLandingPage = ({ portfolioData, onVideoSelect }) => {
             className={`flex flex-col items-center p-2 ${
               activeItem === "Series" ? "text-purple-800" : "text-gray-600"
             }`}
-            onClick={() => setActiveItem("Series")}
+            onClick={() => handleSetActiveItem("Series")}
           >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path

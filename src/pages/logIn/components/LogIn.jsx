@@ -2,11 +2,13 @@ import { useState } from "react";
 import senarImage from "../../../assets/images/senarLogo.png";
 import appleIcon from "../../../assets/icons/appleIcon.png";
 import googleIcon from "../../../assets/icons/googleIcon.png";
-import styles from "./SignIn.module.css";
+import styles from "./LogIn.module.css";
+import { useNavigate, Link } from "react-router-dom";
 
-const SignIn = () => {
+const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
@@ -21,7 +23,7 @@ const SignIn = () => {
       alert("Please enter a password.");
       return;
     }
-    // Proceed with sign in logic
+    navigate("/chooseaccount");
   };
 
   return (
@@ -110,13 +112,13 @@ const SignIn = () => {
             style={{ fontFamily: "var(--font-type)" }}
           >
             Don't have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/signup"
               style={{ color: "var(--primary-purple)" }}
               className="px-2"
             >
-              Login
-            </a>
+              Sign up
+            </Link>
           </p>
 
           <div
@@ -144,4 +146,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LogIn;

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 // Import images - these stay the same
-import thriller1 from "../../assets/images/homeImages/thriller1.png";
-import thriller2 from "../../assets/images/homeImages/thriller2.png";
-import thriller3 from "../../assets/images/homeImages/thriller3.png";
-import thriller4 from "../../assets/images/homeImages/thriller4.png";
-import adventure1 from "../../assets/images/homeImages/adventure1.png";
-import adventure2 from "../../assets/images/homeImages/adventure2.png";
-import adventure3 from "../../assets/images/homeImages/adventure3.png";
-import adventure4 from "../../assets/images/homeImages/adventure4.png";
-import comedy1 from "../../assets/images/homeImages/comedy1.png";
-import comedy2 from "../../assets/images/homeImages/comedy2.png";
-import comedy3 from "../../assets/images/homeImages/comedy3.png";
-import comedy4 from "../../assets/images/homeImages/comedy4.png";
+import thriller1 from "../../../assets/images/homeImages/thriller1.png";
+import thriller2 from "../../../assets/images/homeImages/thriller2.png";
+import thriller3 from "../../../assets/images/homeImages/thriller3.png";
+import thriller4 from "../../../assets/images/homeImages/thriller4.png";
+import adventure1 from "../../../assets/images/homeImages/adventure1.png";
+import adventure2 from "../../../assets/images/homeImages/adventure2.png";
+import adventure3 from "../../../assets/images/homeImages/adventure3.png";
+import adventure4 from "../../../assets/images/homeImages/adventure4.png";
+import comedy1 from "../../../assets/images/homeImages/comedy1.png";
+import comedy2 from "../../../assets/images/homeImages/comedy2.png";
+import comedy3 from "../../../assets/images/homeImages/comedy3.png";
+import comedy4 from "../../../assets/images/homeImages/comedy4.png";
 
 const HomeGuest = () => {
   // Genre categories
@@ -94,9 +94,11 @@ const HomeGuest = () => {
               ></path>
             </svg>
           </button>
-          <button className="bg-purple-800 text-white py-1 px-3 text-sm rounded-md focus:outline-none focus:ring-2 flex-shrink-0 whitespace-nowrap">
-            Sign In
-          </button>
+          <Link to="/login">
+            <button className="bg-purple-800 text-white py-1 px-3 text-sm rounded-md focus:outline-none focus:ring-2 flex-shrink-0 whitespace-nowrap">
+              Sign In
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -345,9 +347,11 @@ const HomeGuest = () => {
                 </svg>
               </button>
 
-              <button className="bg-purple-800 text-white py-2 px-4 rounded-md focus:outline-none">
-                Sign In
-              </button>
+              <Link to="/login">
+                <button className="bg-purple-800 text-white py-2 px-4 rounded-md focus:outline-none">
+                  Sign In
+                </button>
+              </Link>
             </div>
           </div>
 

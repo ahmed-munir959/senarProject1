@@ -3,11 +3,13 @@ import senarImage from "../../../assets/images/senarLogo.png";
 import appleIcon from "../../../assets/icons/appleIcon.png";
 import googleIcon from "../../../assets/icons/googleIcon.png";
 import styles from "./EmailForm.module.css";
+import { useNavigate, Link } from "react-router-dom";
 
-const CreateAccountEmail = ({ onContinue }) => {
+const CreateAccountEmail = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordMode, setPasswordMode] = useState(false);
+  const navigate = useNavigate();
 
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
@@ -23,8 +25,7 @@ const CreateAccountEmail = ({ onContinue }) => {
     } else {
       // If in password mode and password is valid, navigate to ChooseAccount
       if (password.length >= 6) {
-        // Add your password validation logic here
-        onContinue(); // This will trigger the parent component to show ChooseAccount
+        navigate("/chooseaccount");
       } else {
         alert("Please enter a valid password (at least 6 characters).");
       }
@@ -92,13 +93,13 @@ const CreateAccountEmail = ({ onContinue }) => {
             style={{ fontFamily: "var(--font-type)" }}
           >
             Already have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               style={{ color: "var(--primary-purple)" }}
               className="px-2"
             >
               Login
-            </a>
+            </Link>
           </p>
 
           <div

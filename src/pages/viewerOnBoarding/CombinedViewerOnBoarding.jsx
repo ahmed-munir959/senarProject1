@@ -12,6 +12,7 @@ import horrorImage from "../../assets/images/horrorImage.png";
 import romanceImage from "../../assets/images/romanceImage.png";
 import othersImage from "../../assets/images/othersImage.png";
 import crimeImage from "../../assets/images/crimeImage.png";
+import { Link } from "react-router-dom";
 
 const CombinedViewerOnBoarding = (props) => {
   // Stage management
@@ -523,12 +524,14 @@ const CombinedViewerOnBoarding = (props) => {
               </div>
             </div>
 
-            <button
-              onClick={handleStage3Continue}
-              className="w-full bg-[#532E88] text-white py-4 rounded-lg font-semibold font-[Helvetica Neue] hover:bg-[#431C6E] mt-6 md:mt-0"
-            >
-              Continue
-            </button>
+            <Link to={"/viewerlanding"}>
+              <button
+                onClick={handleStage3Continue}
+                className="w-full bg-[#532E88] text-white py-4 rounded-lg font-semibold font-[Helvetica Neue] hover:bg-[#431C6E] mt-6 md:mt-0"
+              >
+                Continue
+              </button>
+            </Link>
           </div>
         </section>
       )}

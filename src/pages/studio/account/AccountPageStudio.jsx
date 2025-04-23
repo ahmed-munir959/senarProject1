@@ -4,7 +4,7 @@ import SideBar from "./SideBar";
 import OverView from "./OverView";
 import Devices from "./Devices";
 import Security from "./Security";
-const AccountPage = () => {
+const AccountPageStudio = () => {
   const [activeItem, setActiveItem] = useState("overview");
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -59,4 +59,4 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+export default AccountPageStudio;

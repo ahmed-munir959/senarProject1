@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { MonitorPlay, Clock, Settings, LogOut, X } from "lucide-react";
 
-const ProfileOptionsMobile = ({ isOpen, onClose }) => {
+const ProfileOptionsMobile = ({
+  isOpen,
+  onClose,
+  onSwitchToViewer,
+  onLogout,
+  onOpenSettings,
+}) => {
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -48,7 +54,13 @@ const ProfileOptionsMobile = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="p-2">
-          <button className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg">
+          <button
+            className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg"
+            onClick={() => {
+              onSwitchToViewer();
+              onClose();
+            }}
+          >
             <div className="text-gray-600">
               <MonitorPlay size={20} />
             </div>
@@ -62,14 +74,26 @@ const ProfileOptionsMobile = ({ isOpen, onClose }) => {
             <span className="text-gray-800">Watch later</span>
           </button>
 
-          <button className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg">
+          <button
+            className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg"
+            onClick={() => {
+              onOpenSettings();
+              onClose();
+            }}
+          >
             <div className="text-gray-600">
               <Settings size={20} />
             </div>
             <span className="text-gray-800">Settings</span>
           </button>
 
-          <button className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg">
+          <button
+            className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-100 rounded-lg"
+            onClick={() => {
+              onLogout();
+              onClose();
+            }}
+          >
             <div className="text-gray-600">
               <LogOut size={20} />
             </div>

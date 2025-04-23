@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import emailIcon from "../../assets/icons/studioViewIcons/emailIcon.png";
-import mobileIcon from "../../assets/icons/studioViewIcons/mobileIcon.png";
-import videoIcon from "../../assets/icons/studioViewIcons/videoIcon.png";
-import viewIcon from "../../assets/icons/studioViewIcons/viewIcon.png";
-import xIcon from "../../assets/icons/studioViewIcons/xIcon.png";
-import ytIcon from "../../assets/icons/studioViewIcons/ytIcon.png";
-import instaIcon from "../../assets/icons/studioViewIcons/instaIcon.png";
+import emailIcon from "../../../assets/icons/studioViewIcons/emailIcon.png";
+import mobileIcon from "../../../assets/icons/studioViewIcons/mobileIcon.png";
+import videoIcon from "../../../assets/icons/studioViewIcons/videoIcon.png";
+import viewIcon from "../../../assets/icons/studioViewIcons/viewIcon.png";
+import xIcon from "../../../assets/icons/studioViewIcons/xIcon.png";
+import ytIcon from "../../../assets/icons/studioViewIcons/ytIcon.png";
+import instaIcon from "../../../assets/icons/studioViewIcons/instaIcon.png";
 
 const StudioViewAbout = ({ isVisible, onClose }) => {
   const [isMobile, setIsMobile] = useState(false);

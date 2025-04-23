@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import backArrowImg from "../../assets/images/studioViewImages/backArrow.png";
-import bwIcon from "../../assets/images/studioViewImages/bwIcon.png";
-import galiGuleyan from "../../assets/images/studioViewImages/galiGuleyan.png";
-import latestUploads1 from "../../assets/images/studioViewImages/latestUploads1.png";
-import latestUploads2 from "../../assets/images/studioViewImages/latestUploads2.png";
-import latestUploads3 from "../../assets/images/studioViewImages/latestUploads3.png";
-import latestUploads4 from "../../assets/images/studioViewImages/latestUploads4.png";
-import allUploads1 from "../../assets/images/studioViewImages/allUploads1.png";
-import allUploads2 from "../../assets/images/studioViewImages/allUploads2.png";
-import allUploads3 from "../../assets/images/studioViewImages/allUploads3.png";
-import allUploads4 from "../../assets/images/studioViewImages/allUploads4.png";
-import allUploads5 from "../../assets/images/studioViewImages/allUploads5.png";
-import allUploads6 from "../../assets/images/studioViewImages/allUploads6.png";
-import allUploads7 from "../../assets/images/studioViewImages/allUploads7.png";
-import allUploads8 from "../../assets/images/studioViewImages/allUploads8.png";
-import allUploads9 from "../../assets/images/studioViewImages/allUploads9.png";
+import backArrowImg from "../../../assets/images/studioViewImages/backArrow.png";
+import { useNavigate } from "react-router-dom";
+
+import bwIcon from "../../../assets/images/studioViewImages/bwIcon.png";
+import galiGuleyan from "../../../assets/images/studioViewImages/galiGuleyan.png";
+import latestUploads1 from "../../../assets/images/studioViewImages/latestUploads1.png";
+import latestUploads2 from "../../../assets/images/studioViewImages/latestUploads2.png";
+import latestUploads3 from "../../../assets/images/studioViewImages/latestUploads3.png";
+import latestUploads4 from "../../../assets/images/studioViewImages/latestUploads4.png";
+import allUploads1 from "../../../assets/images/studioViewImages/allUploads1.png";
+import allUploads2 from "../../../assets/images/studioViewImages/allUploads2.png";
+import allUploads3 from "../../../assets/images/studioViewImages/allUploads3.png";
+import allUploads4 from "../../../assets/images/studioViewImages/allUploads4.png";
+import allUploads5 from "../../../assets/images/studioViewImages/allUploads5.png";
+import allUploads6 from "../../../assets/images/studioViewImages/allUploads6.png";
+import allUploads7 from "../../../assets/images/studioViewImages/allUploads7.png";
+import allUploads8 from "../../../assets/images/studioViewImages/allUploads8.png";
+import allUploads9 from "../../../assets/images/studioViewImages/allUploads9.png";
 import styles from "./customCSS/studioView.module.css";
 import StudioViewAbout from "./StudioViewAbout"; // Import the StudioViewAbout component
 
 const StudioView = () => {
   const [showAbout, setShowAbout] = useState(false); // State to control the About modal visibility
+  const navigate = useNavigate();
 
   return (
     <div className="w-full md:px-8 md:py-6 px-4 py-4 overflow-x-hidden">
@@ -27,7 +30,10 @@ const StudioView = () => {
       <div className="md:flex md:gap-12">
         {/* Left navigation - hidden on mobile */}
         <div className="flex-shrink-0 pt-16 hidden md:block">
-          <button className="flex items-center text-gray-600">
+          <button
+            className="flex items-center text-gray-600 "
+            onClick={() => navigate(-1)}
+          >
             <img src={backArrowImg} alt="Back Arrow" className="w-5 h-5" />
             <span className="ml-2">Back to content</span>
           </button>
@@ -35,7 +41,10 @@ const StudioView = () => {
 
         {/* Mobile back button */}
         <div className="md:hidden mb-4">
-          <button className="flex items-center text-gray-600">
+          <button
+            className="flex items-center text-gray-600"
+            onClick={() => navigate(-1)}
+          >
             <img src={backArrowImg} alt="Back Arrow" className="w-5 h-5" />
           </button>
         </div>
